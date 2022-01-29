@@ -5,7 +5,7 @@
 
 ----
 #### **Professor:** 
-Ahmed Ali Abdalla Esmin
+* Ahmed Ali Abdalla Esmin
 
 #### **Alunos:**
 * Bruno Carlos de Mesquita Naves
