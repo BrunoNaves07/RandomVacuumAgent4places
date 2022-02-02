@@ -11,13 +11,38 @@ class World {
 		}
 		this.lastClean;
     }
-
+	
     markFloorDirty(floorNumber) {
 		this.floors[floorNumber].dirty = true;
     }
+	
+	// Generates random int
+	getRandomInt(min, max) {
+	  min = Math.ceil(min);
+	  max = Math.floor(max);
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+	
+	// random possibility of getting dirty, based on a constant percentage chance
+	shouldGetDirty() {
+		const percentageChance = 30;
+		const sortedNumber = this.getRandomInt(0, 100);
+		return sortedNumber <= percentageChance;
+	}
+	
+	makeFloorsRandomlyDirty() {
+		let randomFloor = this.getRandomInt(0, 4);
+		if (randomFloor != this.location){
+			if (this.shouldGetDirty()) {
+				this.floors[randomFloor].dirty = true;
+			}
+		}
+	}
 
     simulate(action) {
-        switch(action) {
+        this.makeFloorsRandomlyDirty();
+		
+		switch(action) {
         case 'SUCK':
 			this.floors[this.location].dirty = false;
 			this.lastClean = this.location;
@@ -173,11 +198,4 @@ function reflexVacuumAgent(world) {
 			} else { return 'UP' }
 		}
     }
-}
-
-// Rules are defined in data, in a table indexed by [location][dirty]
-function tableVacuumAgent(world, table) {
-    let location = world.location;
-    let dirty = world.floors[location].dirty ? 1 : 0;
-    return table[location][dirty];
 }
